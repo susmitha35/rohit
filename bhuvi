@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Define the file containing the list of servers
+SERVER_LIST="servers.txt"
+
+# Command to execute on each server
+REMOTE_COMMAND="uptime"  # Change this to any command you want to run
+
+# Check if the server list file exists
+if [[ ! -f "$SERVER_LIST" ]]; then
+    echo "Server list file not found: $SERVER_LIST"
+    exit 1
+fi
+
+# Loop through each server and execute the command
+while IFS= read -r SERVER; do
+    echo "Executing on $SERVER..."
+    ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5 "$SERVER" "$REMOTE_COMMAND"
+done < "$SERVER_LIST
